@@ -1,0 +1,50 @@
+class Solution {
+    public List<List<String>> suggestedProducts(String[] products, String searchWord) {
+        
+        List<List<String>> output = null;
+        Map<String,TreeSet<String>> map = new HashMap<String,TreeSet<String>>();
+        
+        for(String product:products){
+            for(int i=1;i<=product.length();i++){
+                String substr = product.substring(0,i);
+                if(map.containsKey(substr)){
+                    TreeSet<String> set = map.get(substr);
+                    set.add(product);
+                    if(set.size() > 3){
+                        set.pollLast();
+                    }
+                    map.put(substr,set);
+                }
+                else{
+                   TreeSet<String> set = new TreeSet<String>();
+                    set.add(product);
+                    map.put(substr,set);
+                }
+            }
+        }
+        
+        List<List<String>> outputlist = new ArrayList<List<String>>();
+        
+        for(int i=1;i<=searchWord.length();i++){
+            String substr = searchWord.substring(0,i);
+            List<String> listforsubstr = new ArrayList();
+            if(map.containsKey(substr)){
+                TreeSet<String> set = map.get(substr);
+                listforsubstr = set.stream().collect(Collectors.toList());
+                outputlist.add(listforsubstr);
+                
+            }
+            else{
+                outputlist.add(listforsubstr);
+            }
+        }
+        
+        return outputlist;
+        
+    }
+}
+
+
+Approach : Brute_force. I have used a brute force approxah and stored all the possible substrings from the prodyuct names in a hashmap.
+
+Complexity: 

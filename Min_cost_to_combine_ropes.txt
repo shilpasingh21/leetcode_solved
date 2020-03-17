@@ -1,0 +1,88 @@
+import java.io.*;
+import java.util.*;
+
+/*
+ * To execute Java, please define "static void main" on a class
+ * named Solution.
+ *
+ * If you need more classes, simply define them inline.
+ */
+
+class Solution {
+  
+  public static void main(String[] args) {
+    
+    int[] input1 = new int[]{8, 4, 6, 12};
+    int output1 = connectSticks(input1);
+    
+    System.out.println(" min _sum : " + output1);
+    
+    int[] input2 = new int[]{20, 4, 8, 2};
+    int output2 = connectSticks(input2);
+    
+    System.out.println(" input2: " + input2);
+    System.out.println(" min _sum : " + output2);
+    
+    int[] input3 = new int[]{1, 2, 5, 10, 35, 89};
+    int output3 = connectSticks(input3);
+    
+    System.out.println(" input3: " + input3);
+    System.out.println(" min _sum : " + output3);
+    
+    int[] input4 = new int[]{2, 2, 3, 3};
+    int output4 = connectSticks(input4);
+    
+    System.out.println(" input3: " + input4);
+    System.out.println(" min _sum : " + output4);
+    
+  }
+  
+  
+  
+  
+  
+  public static int connectSticks(int[] sticks) {
+    
+   
+    if(sticks == null || sticks.length ==0)
+    {
+      return 0;
+    }
+    
+    // minheap
+    PriorityQueue<Integer> heap = new PriorityQueue<Integer>();
+      
+    
+    for(int num: sticks)
+    {
+      heap.offer(num);
+    }
+   
+    
+    int cost =0;
+    
+    while(heap.size() >= 2)
+    {
+      
+      int min_1 = heap.poll();
+      int min_2 = heap.poll();
+      int sum = min_1 + min_2;
+      heap.offer(sum);
+      cost = cost + sum;
+      
+    }
+    
+     return cost;
+    
+    
+  }
+  
+}
+
+
+Analysis: We are following a greedy approcxah and ensuring that every time  we are choosing the sticks with miminum cost and then the resultant is stored again in min heap.
+We repeart the process unitil we get one stick.Runtime in O(nlogn) as we are putting it in heap every time.It will re heapify in log N and since we do this n times it is N log N.
+Space complexity is O(N).
+
+
+

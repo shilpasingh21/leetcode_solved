@@ -1,0 +1,51 @@
+package hashtables;
+
+import java.util.*;
+
+public class TwoSumUniquePair {
+	
+	public static void main(String[] args) {
+		
+		int[] input = new int[] {1,5,1,5};
+		List<ArrayList<Integer>> output = new ArrayList<ArrayList<Integer>>();
+		int target = 6;
+		output = unique_2_sum_pair(input,target);
+		System.out.println(output);
+		
+	}
+
+	public static List<ArrayList<Integer>> unique_2_sum_pair(int[] nums, int target) {
+		
+		Set<Integer> set = new HashSet<Integer>();
+		List<ArrayList<Integer>> output = new ArrayList<ArrayList<Integer>>();
+
+		for (int i = 0; i < nums.length; i++) {
+			if (!set.contains(nums[i])) {
+				int diff = target - nums[i];
+				for (int j = i + 1; j < nums.length; j++) {
+					if (nums[j] == diff) {
+						ArrayList<Integer> pair = new ArrayList<Integer>();
+						set.add(nums[j]);
+						set.add(nums[i]);
+						pair.add(nums[i]);
+						pair.add(nums[j]);
+						output.add(pair);
+						break;
+					}
+				}
+			}
+		}
+
+		return output;
+	}
+}
+
+Complexity Analysis
+
+Time complexity : O(n^2)O(n 
+2
+ ). For each element, we try to find its complement by looping through the rest of array which takes O(n)O(n) time. Therefore, the time complexity is O(n^2)O(n 
+2
+ ).
+
+Space complexity : O(1)O(1).

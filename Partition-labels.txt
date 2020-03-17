@@ -1,0 +1,28 @@
+class Solution {
+    public List<Integer> partitionLabels(String S) {
+        List<Integer> partitionLengths = new ArrayList<Integer>();
+        int[] lastindexes = new int[26];
+        for(int i = 0; i < S.length(); i++){
+          lastindexes[S.charAt(i) - 'a'] = i;
+        }
+        
+        int i=0;
+        while(i < S.length()) {
+            int end = lastindexes[S.charAt(i) - 'a'];
+            int j = i;
+            while( j != end){
+                end = Math.max(end,lastindexes[S.charAt(j++) - 'a']);
+            }
+            
+            partitionLengths.add(j - i + 1) ;
+            i = j + 1;
+            
+        }
+        
+        return partitionLengths;
+    }
+}
+
+Time complexity is O(n) since we are scanning the string.
+
+Space cpo plexity is o(1).

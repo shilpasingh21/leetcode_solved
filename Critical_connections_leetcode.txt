@@ -1,0 +1,138 @@
+package hashtables;
+
+import java.util.*;
+
+public class CriticalConnectionsLeetcode {
+	
+	
+	public static void main(String[] args) {
+		List<List<Integer>> input1 = new ArrayList<>();
+	     
+	     List<Integer> pair1 = new ArrayList<>();
+	     pair1.add(1);
+	     pair1.add(2);
+	     
+	     List<Integer> pair2 = new ArrayList<>();
+	     pair2.add(1);
+	     pair2.add(3);
+	     
+	     List<Integer> pair3 = new ArrayList<>();
+	     pair3.add(2);
+	     pair3.add(3);
+	     
+	     List<Integer> pair4 = new ArrayList<>();
+	     pair4.add(3);
+	     pair4.add(4);
+	     
+	     List<Integer> pair5 = new ArrayList<>();
+	     pair5.add(3);
+	     pair5.add(6);
+	     
+	     List<Integer> pair6 = new ArrayList<>();
+	     pair6.add(4);
+	     pair6.add(5);
+	     
+	     List<Integer> pair7 = new ArrayList<>();
+	     pair7.add(6);
+	     pair7.add(7);
+	     
+	     List<Integer> pair8 = new ArrayList<>();
+	     pair8.add(6);
+	     pair8.add(9);
+	     
+	     List<Integer> pair9 = new ArrayList<>();
+	     pair9.add(7);
+	     pair9.add(8);
+	     
+	     List<Integer> pair10 = new ArrayList<>();
+	     pair10.add(8);
+	     pair10.add(9);
+	     
+	     
+	     input1.add(pair1);
+	     input1.add(pair2);
+	     input1.add(pair3);
+	     input1.add(pair4);
+	     input1.add(pair5);
+	     input1.add(pair6);
+	     input1.add(pair7);
+	     input1.add(pair8);
+	     input1.add(pair9);
+	     input1.add(pair10);
+	     
+	     int numServers = 9;
+	     
+	     System.out.println(criticalConnections(numServers, input1));
+	}
+	
+	public static List<List<Integer>> criticalConnections(int n, List<List<Integer>> connections) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (List<Integer> con : connections)
+        {
+            graph.putIfAbsent(con.get(0), new ArrayList<>());
+            graph.putIfAbsent(con.get(1), new ArrayList<>());
+            graph.get(con.get(0)).add(con.get(1));
+            graph.get(con.get(1)).add(con.get(0));
+        }
+        
+        boolean[] visited = new boolean[n+1];
+        int[] parent = new int[n+1];
+        
+        for (int i = 1; i <= n; i++)
+            parent[i] = -1;
+        
+        int[] low = new int[n+1];
+        int[] disc = new int[n+1];
+        Integer time = 0;
+        
+        for (Integer u : graph.keySet())
+        {
+            if (!visited[u])
+                dfs(graph, u, parent, low, disc, visited, time, ans);
+        }
+        
+        return ans;
+    }
+    
+    private static void dfs(Map<Integer, List<Integer>> graph, int u, int[] parent, int[] low, int[] disc, boolean[] visited, Integer time, List<List<Integer>> ans) {
+        visited[u] = true;
+        low[u] = time + 1;
+        disc[u] = time + 1;
+        time++;
+        
+        for (Integer v : graph.getOrDefault(u, new ArrayList<>()))
+        {
+            if (!visited[v])
+            {
+                parent[v] = u;
+                dfs(graph, v, parent, low, disc, visited, time, ans);
+                
+                low[u] = Math.min(low[u], low[v]);
+                
+                if (low[v] > disc[u])
+                {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(u <= v ? u : v);
+                    list.add(u <= v ? v : u);
+                    ans.add(list);
+                }
+            }
+            else if (v != parent[u])
+                low[u] = Math.min(low[u], disc[v]);
+        }
+    }
+
+}
+
+
+Approach: To find all the bridges for a given undirected graph, we use depth first traversal to visist each node.While we visit each node,we assign two values to it,discovery time 
+disc and low value low.Discovery time basically indicates the time when the node is visited.low value for a node indicates whether there is some other early node (based on disc)
+that can be visited by the subtree rooted with that node.
+ We assign values to disc and low based on the time the node u is visited.Then we assign u as parent of v which signifies that node v is connected directly to node u and is visited
+ after visting node u.If node  V is not already visited,visit v next node by calling the function recusrively.Once all the nodes in the subtree of u is visited,we update the low value as needed.Then we check whether the edge between u and v is a bridge or not.v is a root of the subtree traversred recursively through the dfs function call.If the adjacent
+ node is already visited, we check whetether it is an earlier visited node than the previous node and we update the low value.
+ 
+ 
+ 
+

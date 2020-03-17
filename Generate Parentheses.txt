@@ -1,0 +1,31 @@
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        
+    List<String> ans=new ArrayList<>();
+    backtrac_func(0,0,n,"",ans);
+    return ans;
+    
+}
+    
+    public static void backtrac_func(int open,int close,int n,String s, List<String> ans){
+    
+    if(s.length()== 2*n)
+    {
+        ans.add(s);
+        return;
+    }
+    if(close<open)
+    {
+        backtrac_func(open,close+1,n,s+")",ans);
+    }
+    if(open<n)
+    {
+        backtrac_func(open+1,close,n,s+"(",ans);
+    }
+    return;
+    
+}
+    
+}
+
+Space complexity is O(n).

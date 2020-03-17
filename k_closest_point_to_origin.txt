@@ -1,0 +1,38 @@
+class Solution {
+    
+    public int[][] kClosest(int[][] points, int K) {
+        
+        int[][] output = new int[K][];
+        
+        if(points == null || points.length == 0){
+            return output;
+        }
+        
+        
+        Comparator<int[]> comparedistance  = new Comparator<int[]>(){
+            @Override
+            public int compare(int[] w1, int[] w2){
+                int d1 = w1[0] * w1[0] + w1[1] * w1[1];
+                int d2 = w2[0] * w2[0] + w2[1] * w2[1];
+                return d2 > d1 ? 1 : -1;
+            }
+        };
+        
+        PriorityQueue<int[]> maxheap = new PriorityQueue<int[]>(comparedistance);
+        
+        for(int[] point : points){
+            maxheap.add(point);
+            if(maxheap.size() > K){
+              maxheap.poll() ; 
+            }
+        }
+        
+        int i=0;
+        while(!maxheap.isEmpty()){
+            output[i] = maxheap.poll();
+            i++;
+        }
+        
+        return output;
+   }
+}

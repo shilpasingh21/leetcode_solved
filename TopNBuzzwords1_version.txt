@@ -1,0 +1,147 @@
+import java.io.*;
+import java.util.*;
+import java.util.stream.Collectors;  
+
+/*
+ * To execute Java, please define "static void main" on a class
+ * named Solution.
+ *
+ * If you need more classes, simply define them inline.
+ */
+
+public class Solution {
+  
+  public static void main(String[] args) {
+    
+    int numToys =6;
+    int topToys =2;
+    int numQuotes =6;
+    
+    
+    
+     List<String> toys = new ArrayList<String>();
+      toys.add("elmo");
+      toys.add("elsa");
+      toys.add("legos");
+      toys.add("drone");
+      toys.add("tablet");
+      toys.add("warcraft");
+    
+    
+    List<String> quotes = new ArrayList<String>();
+    quotes.add("Elsa is the hottest of the season! Elsa will be on every kid's wishlist!");
+    quotes.add("The new Elsa dolls are super high quality");
+    quotes.add("Expect the Elmo dolls to be very popular this year, Elmo!");
+    quotes.add("Elmo and Elsa are the toys I'll be buying for my kids, Elmo and Elmo is good");
+    quotes.add("For parents of older kids, look into buying them a drone");
+    quotes.add("Warcraft is slowly rising in popularity ahead of the holiday season"); 
+    
+    try{
+      topNBuzzwords(numToys, topToys, toys, numQuotes, quotes);
+    }
+    
+    catch(Exception e) {
+      e.printStackTrace();
+    }
+  }
+      
+    
+   private static void topNBuzzwords(int numToys, int topToys, List<String> toys, int numQuotes, List<String>  quotes)
+   {
+    
+    
+    Map<String,Integer> frequencymap = new HashMap<String,Integer>();
+    
+    Map<String,Integer> quotecountmap = new HashMap<String,Integer>();
+    
+    
+    for(String toy : toys){
+      
+     frequencymap.put(toy,0);
+    }
+    
+    for(String toy : toys){
+      
+     quotecountmap.put(toy,0);
+    }
+    
+    
+    Iterator<String> itr = quotes.iterator();
+    
+    while(itr.hasNext())
+    {
+      
+       String quote = itr.next();
+       String[] quotearr = quote.split("\\W+");
+       Set<String> scanned = new HashSet<String>();
+      
+      
+      
+       for(String s: quotearr)
+       {
+         String word = s.toLowerCase();
+         if(frequencymap.containsKey(word))
+         {
+           frequencymap.put(word,frequencymap.get(word) + 1);
+           scanned.add(word);
+         }
+       }
+      
+      
+      Iterator<String> setitr = scanned.iterator();
+      while(setitr.hasNext())
+      {
+        String name = setitr.next();
+        if(quotecountmap.containsKey(name))
+        {
+          quotecountmap.put(name,quotecountmap.get(name) + 1);
+        }
+      }
+    
+    }
+    
+    
+    PriorityQueue<String> minheap = 
+      new PriorityQueue<String>((w1,w2) -> frequencymap.get(w1).equals(frequencymap.get(w2)) ? 
+                                           (quotecountmap.get(w1).equals(quotecountmap.get(w2)) ?  
+                                            w2.compareTo(w1)  : quotecountmap.get(w1) - quotecountmap.get(w2)) :
+                                          frequencymap.get(w1) - frequencymap.get(w2)
+                              );
+    
+    
+    for(String toy: toys)
+    {
+      minheap.add(toy);
+      if(minheap.size() > topToys)
+      {
+        minheap.poll();
+      }
+    }
+    
+    
+    
+    List<String> output = new ArrayList<String>();
+    while(!minheap.isEmpty())
+    {
+      output.add(minheap.poll());
+    }
+    
+    Collections.reverse(output);
+    
+    System.out.println(output.toString());
+    
+    
+  }
+}
+
+
+Approach;
+
+
+
+      
+      
+    
+    
+  
+  

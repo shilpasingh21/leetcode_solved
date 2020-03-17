@@ -1,0 +1,71 @@
+class Solution {
+    public String[] reorderLogFiles(String[] logs) {
+        
+     List<String> letterlogs = new ArrayList<String>();
+     List<String> digitlogs = new ArrayList<String>();
+     
+     for(String log: logs){
+       
+       if (Character.isDigit(log.split("\\s+")[1].charAt(0))){
+        
+         digitlogs.add(log);
+        }
+      
+       else {
+       
+         letterlogs.add(log);
+       }
+     }
+     
+    
+     Collections.sort(letterlogs, (w1,w2) -> 
+      {
+        String w1_second = w1.split("\\s+")[1];
+        String w2_second = w2.split("\\s+")[1];
+        
+        int cmp = w1_second.compareTo(w2_second);
+        if(cmp !=0) return cmp;
+        
+        String w1_first = w1.split("\\s+")[0];
+        String w1_first_1 = getdigits(w1_first);
+         
+        String w2_first = w2.split("\\s+")[0];
+        String w2_first_1 = getdigits(w2_first);
+        
+        int cmp_1 = w1_first_1.compareTo(w2_first_1);
+        return cmp_1;
+      });
+        
+   
+    
+     String[] output = new String[logs.length];
+     int last = letterlogs.size();
+     
+     for(int i=0;i<letterlogs.size();i++)
+     {
+       output[i] = letterlogs.get(i);
+     }
+     
+     for(int j=last,i=0;i<digitlogs.size();i++,j++)
+     {
+       output[j] = digitlogs.get(i);
+     }
+     
+    return output;
+        
+        
+    }
+    
+     public String getdigits(String s){
+        String str = s.trim();
+        String digits="";
+        for (int i = 0; i < str.length(); i++) 
+        {
+            char chrs = str.charAt(i);              
+            if (Character.isDigit(chrs))
+                digits = digits+chrs;
+        }
+            return digits;
+        }
+     
+}

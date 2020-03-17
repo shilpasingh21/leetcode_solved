@@ -1,0 +1,66 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    
+    Map<TreeNode,Integer> totalchild = new HashMap<TreeNode,Integer>();
+    Map<TreeNode,Integer> totalvalue = new HashMap<TreeNode,Integer>();
+    
+    public double maximumAverageSubtree(TreeNode root) {
+        return findavg(root);
+    }
+    
+    private double findavg(TreeNode root)
+    {
+        if(root == null){
+            return 0;
+        }
+        
+        double curr = (double)getTotalValue(root)/(double)getTotalChild(root);
+        return Math.max(curr,Math.max(findavg(root.left),findavg(root.right)));
+    }
+    
+    
+    private int getTotalChild(TreeNode root){
+        if(root == null){
+            return 0;
+        }
+        
+        if(totalchild.containsKey(root)){
+            return totalchild.get(root);
+        }
+        
+        int res = getTotalChild(root.left) + getTotalChild(root.right) + 1;
+        totalchild.put(root,res);
+        return res;
+    }
+    
+    private int getTotalValue(TreeNode root){
+        if(root == null){
+            return 0;
+        }
+        
+        if(totalvalue.containsKey(root)){
+            return totalvalue.get(root);
+        }
+        
+        int res = getTotalValue(root.left) + getTotalValue(root.right) + root.val;
+        totalvalue.put(root,res);
+        return res;
+    }
+}
+    
+    
+    
+    
+    
+    
+    
+    
+    

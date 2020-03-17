@@ -1,0 +1,106 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
+C#, VB, Perl, Swift, Prolog, Javascript, Pascal, HTML, CSS, JS
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+import java.util.*;
+
+class Main{
+
+public static void main(String args[])
+{
+   String input1 = new String("abcabc");
+   List<String> output1 = substringk(input1,3);
+   System.out.println(output1);
+   
+   String input2 = new String("abacab");
+   List<String> output2 = substringk(input2,3);
+   System.out.println(output2);
+   
+   String input3 = new String("awaglknagawunagwkwagl");
+   List<String> output3 = substringk(input3,4);
+   System.out.println(output3);
+   
+   
+}
+
+public static List<String> substringk(String s,int k){
+    List<String> output = new ArrayList<String>();
+    Set<String> setoutput = new HashSet<String>();
+    
+    if(s.length() ==0 || s ==null){
+       return output;
+    }
+    
+    char[] chararray = s.toCharArray();
+    int lastindex = chararray.length-1;
+    
+    for(int i=0;i<=lastindex-k+1;i++)
+    {
+       Set<Character> letters = new LinkedHashSet<Character>();
+       String sub = "";
+       int j = i;
+       int m = 1;
+       
+       while(m<=k) 
+       {
+            if(!letters.contains(chararray[j])){
+              letters.add(chararray[j]);
+              sub = sub + chararray[j];
+              j++;
+              m++;
+            }
+           else{
+               break;
+           }
+        }
+        
+        if(m == k+1){
+            setoutput.add(sub);
+        }
+        
+    }
+    
+    output.addAll(setoutput);
+    return output;
+    
+}
+
+}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+

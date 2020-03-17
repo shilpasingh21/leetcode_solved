@@ -1,0 +1,102 @@
+package hashtables;
+
+import java.util.*;
+
+public class ZombieInmatrix {
+	
+	public static void main(String[] args) {
+		
+		int[][] input1 = {
+				{0, 1, 1, 0, 1},
+				{0, 1, 0, 1, 0},
+				{0, 0, 0, 0, 1},
+				{0, 1, 0, 0, 0}
+		};
+		
+		int output1 = zombiehours(input1);
+		System.out.println(" output1 :"+ output1);
+		
+	}
+	
+	public static int zombiehours(int[][] matrix) {
+		
+		int[] dr_rows = {0,-1,0,1};
+		int[] dr_cols = {-1,0,1,0};
+		
+		int rows = matrix.length;
+		int cols = matrix[0].length;
+		
+		LinkedList<String> queue = new LinkedList<String>();
+		Map<String,Integer> depthmap = new HashMap<String,Integer>();
+		
+		for(int i=0;i<rows;i++) {
+			for(int j=0;j<cols;j++) {
+				if(matrix[i][j] == 1) {
+					String coordinate = ""+ i+j;
+					depthmap.put(coordinate,0);
+					queue.add(coordinate);
+				}
+	         }
+		}
+		
+		int output=0;
+		
+		while(!queue.isEmpty()) {
+			String coordinate =  queue.poll();
+			int row = coordinate.charAt(0) -'0';
+			int column = coordinate.charAt(1) -'0';
+			for(int k=0;k<4;k++) {
+				int nr = row + dr_rows[k];
+				int nc = column + dr_cols[k];
+				if (nr >=0 && nr < rows && nc>=0 && nc < cols && matrix[nr][nc] == 0) {
+                    matrix[nr][nc] = 1;
+                    String n_coordinate = "" + nr +nc;
+                    queue.add(n_coordinate);
+                    depthmap.put(n_coordinate, depthmap.get(coordinate) + 1);
+                    output = depthmap.get(n_coordinate);
+                }
+			}
+		}
+		
+		for (int[] row: matrix)
+            for (int val: row)
+                if (val == 0)
+                    return -1;
+		
+		
+		return output;
+			
+			
+			
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+	
+	
+	
+	}
+	
+	
+Approach: I have follwed a breadth-Firsrtsearch approach and used a queue to first enque all the zombies in the matrix which is the initial state of the queue.Then Also, the coordinates of the zombies are stored in a hash map with the level idf that zombie as the valu.In every iteration, the zombies which will be poicked up will have the same level since it is a BFS.Then I started deqeuing the coordinates which are at level 0 and checked their adjacent coordinteas.If a 0 was foind it was marked as zombie and stored in the hash mapand in the queue.This continued till th equeue was empty which indicatred that all levels were scanned.After that the matrix was scanned and if there was any 0, -1 was returned.
+Also, if all the values were turned zombie then the max levekl which is stored in hasmap for every iteration is returned.
+
+Complexity Analysis:
+
+Time complexity: O(n): The matrix is scanned once and the zombies are ebnquued.Then the queue is scanned wchich will have at most N elements,
+
+Space complexity: O(2n) for storing hash map and quueue.
+
+
+
+	
+	
+	
+	
+
+

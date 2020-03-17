@@ -1,0 +1,108 @@
+import java.io.*;
+import java.util.*;
+
+/*
+ * To execute Java, please define "static void main" on a class
+ * named Solution.
+ *
+ * If you need more classes, simply define them inline.
+ */
+
+class Solution {
+  
+  public static void main(String[] args) {
+    
+    int[] input1 = new int[]{1, 10, 25, 35, 60};
+    int target1 = 90;
+    //List<Integer> output1 = givensum(input1,target1);
+    //System.out.println("output of function is : " + output1.toString());
+    
+     int[] input2 = new int[]{20, 50, 40, 25, 30, 10};
+     List<Integer> output2 = givensum(input2,target1);
+     System.out.println("output of function is : " + output2.toString());
+    
+    
+   }
+  
+  public static List<Integer> givensum(int[] nums,int target)
+  {
+    
+     List<Integer> indices = new ArrayList<Integer>();
+     indices.add(-1);
+     indices.add(-1);
+    
+    
+    if(nums ==null || nums.length ==0 || nums.length==1)
+    {
+      
+      return indices;
+    }
+    
+    
+    List<ArrayList<Integer>> output = new ArrayList<ArrayList<Integer>>();
+    List<ArrayList<Integer>> outputindex = new ArrayList<ArrayList<Integer>>();
+    
+    for(int i=0;i<nums.length-1;i++)
+    {
+      for(int j=i+1;j<nums.length;j++)
+      {
+        int sum = nums[i] + nums[j];
+        if(sum == target-30)
+        {
+          ArrayList<Integer> pair = new ArrayList<Integer>();
+          ArrayList<Integer> index = new ArrayList<Integer>();
+          pair.add(nums[i]);
+          pair.add(nums[j]);
+          index.add(i);
+          index.add(j);
+          output.add(pair);
+          outputindex.add(index);
+        }
+      }
+    }
+    
+   if(output.size() == 0)
+    {
+     return indices;
+    }
+    
+    int max =0;
+   
+    
+    for(int i=0;i<output.size();i++)
+    {
+      
+      List<Integer> current = output.get(i);
+      Integer currentmax = Collections.max(current);
+     
+      
+      if(currentmax > max)
+      {
+        max = currentmax;
+        indices.set(0,outputindex.get(i).get(0));
+        indices.set(1,outputindex.get(i).get(1));
+      }
+    }
+    
+    return indices;
+  }
+}
+
+We are using the brute-force approach and time complexity is O(n^2) and space complexity is O(N)
+
+
+      
+       
+      
+    
+    
+   
+    
+       
+    
+    
+        
+    
+    
+    
+   

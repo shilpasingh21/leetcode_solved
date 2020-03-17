@@ -1,0 +1,59 @@
+class Solution {
+    public int[][] generateMatrix(int n) {
+        
+        int[][] output = new int[n][n];
+        
+        int r1=0,r2=n-1;
+        int c1=0,c2=n-1;
+        
+        int num =1;
+        
+        while(r1<=r2 || c1<=c2)
+        {
+            for(int c=c1;c<=c2;c++){
+                output[r1][c] = num++;
+            }
+         
+            for(int r=r1+1;r<=r2;r++){
+                output[r][c2] = num++;
+            }
+            
+            for(int c=c2-1;c>=c1;c--){
+                output[r2][c] = num++;
+            }
+                
+            for(int r=r2-1;r>r1;r--){
+                output[r][c1] = num++;
+            }
+            
+            r1++;
+            c1++;
+            r2--;
+            c2--;
+        }
+        
+        return output;
+  }
+}
+
+
+Approach 2: Layer-by-Layer
+Intuition
+
+The answer will be all the elements in clockwise order from the first-outer layer, followed by the elements from the second-outer layer, and so on.
+
+Algorithm
+
+We define the \text{k}k-th outer layer of a matrix as all elements that have minimum distance to some border equal to \text{k}k. For example, the following matrix has all elements in the first-outer layer equal to 1, all elements in the second-outer layer equal to 2, and all elements in the third-outer layer equal to 3.
+
+For each outer layer, we want to iterate through its elements in clockwise order starting from the top left corner. Suppose the current outer layer has top-left coordinates \text{(r1, c1)}(r1, c1) and bottom-right coordinates \text{(r2, c2)}(r2, c2).
+
+Then, the top row is the set of elements \text{(r1, c)}(r1, c) for \text{c = c1,...,c2}c = c1,...,c2, in that order. The rest of the right side is the set of elements \text{(r, c2)}(r, c2) for \text{r = r1+1,...,r2}r = r1+1,...,r2, in that order. Then, if there are four sides to this layer (ie., \text{r1 < r2}r1 < r2 and \text{c1 < c2}c1 < c2), we iterate through the bottom side and left side as shown in the solutions below.
+
+Complexity Analysis
+
+Time Complexity: O(N)O(N), where NN is the total number of elements in the input matrix. We add every element in the matrix to our final answer.
+
+Space Complexity: O(N)O(N), the information stored in ans.
+
+

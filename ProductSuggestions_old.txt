@@ -1,0 +1,88 @@
+class Solution {
+    
+    public List<List<String>> suggestedProducts(String[] products, String searchWord) {
+    
+        List<List<String>> outputList = null;
+        HashMap<String, LinkedList<String>> hashMap = null;
+        LinkedList<String> linkedList = null;
+        String product = "";
+        String subStr = "";
+        
+        try {
+            
+            outputList = new ArrayList<>();
+            
+            hashMap = new HashMap<>();
+            
+            for(int i = 0; i < products.length; i++) {
+                
+                product = products[i];
+                
+                for(int j = 1; j <= product.length(); j++) {
+                    
+                    subStr = product.substring(0, j);
+                    
+                    if(hashMap.containsKey(subStr)) {
+                        
+                        hashMap.get(subStr).add(product);
+                        
+                    } else {
+                        
+                        linkedList = new LinkedList<>();
+                        linkedList.add(product);
+                        
+                        hashMap.put(subStr, linkedList);
+                        
+                    }
+                    
+                }
+                
+            }
+            
+            List<String> list = null;
+            
+            for(int i = 1; i <= searchWord.length(); i++) {
+                
+                subStr = searchWord.substring(0, i);
+                
+                if(hashMap.containsKey(subStr)) {
+                    
+                    //System.out.println(hashMap.get(subStr));
+                    
+                    list = new ArrayList<>(hashMap.get(subStr));
+                    
+                    if(list.size() >= 3) {
+                        
+                        Collections.sort(list);
+                        
+                        outputList.add(list.subList(0, 3));
+                        
+                    } else {
+                        
+                        Collections.sort(list);
+                        
+                        outputList.add(list);
+                        
+                    }
+                    
+                } else {
+                    
+                    list = new ArrayList<>();
+                    
+                    outputList.add(list);
+                    
+                }
+                
+            }
+             
+        } catch(Exception e) {
+            
+            System.out.println("Exception encountered in suggestedProducts(String[] products, String searchWord): " + e);
+            
+        }
+        
+        return outputList;
+        
+    }
+    
+}

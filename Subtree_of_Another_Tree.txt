@@ -1,0 +1,54 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+
+/* Treenode t is a subtree of Treenode s */
+
+class Solution {
+    
+   public boolean isSubtree(TreeNode s,TreeNode t) {
+     
+     if(s == null){
+       return false;
+     }
+     
+     
+     if(t == null){
+       return true;
+     }
+     
+     if(areidentical(s,t)){
+       return true;
+     }
+     
+     return (isSubtree(s.left,t) || isSubtree(s.right,t));
+   }
+  
+  
+  public boolean areidentical(TreeNode root1,TreeNode root2)
+  {
+    if(root1 == null  && root2 == null){
+      return true;
+    }
+    
+    if(root1 == null || root2 == null){
+      return false;
+    }
+    
+    return (root1.val == root2.val && areidentical(root1.left,root2.left) 
+           && areidentical(root1.right,root2.right));
+  }
+}
+
+
+
+Analysis:
+
+Time complxity O(mn) where m and n are the number of nodes in 2 subtreees.
+

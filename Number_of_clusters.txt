@@ -1,0 +1,93 @@
+import java.io.*;
+import java.util.*;
+
+/*
+ * To execute Java, please define static void main on a class
+ * named Solution.
+ *
+ * If you need more classes, simply define them inline.
+ */
+
+class Solution {
+  public static void main(String[] args) {
+     
+    char[][] input1 = new char[][] { {1,1,1,1,0},{1,1,0,1,0},{1,1,0,0,0},{0,0,0,0,0}};
+    int output1 = numIslands(input1);
+    System.out.println( "No of Islands = "  + output1);
+    
+    char[][] input2 = new char[][] { {1,1,0,0,0,},{1,1,0,0,0},{0,0,1,0,0},{0,0,0,1,1}};
+    int output2 = numIslands(input2);
+    System.out.println( "No of Islands =  " + output2);
+    
+    char[][] input3 = new char[][] {{1,1,1,1,0},{1,1,0,1,0},{1,1,0,0,0},{0,0,0,0,0}};
+    int output3 = numIslands(input3);
+    System.out.println( "No of Islands = "  + output3);
+    
+    
+    
+  
+  }
+  
+  
+  private static int numIslands(char[][] grid) {
+    
+   if(grid == null || grid.length == 0){
+        return 0;
+    }
+        
+    int rows = grid.length;
+    int cols = grid[0].length;
+    char[][] visited = new char[rows][cols];
+    int num = 0;
+    for(int i=0;i<rows;i++)
+    {
+      for(int j=0;j<cols;j++)
+      {
+        if(visited[i][j] != 'V' && grid[i][j] == 1)
+        {
+          num ++;
+          dfs(i,j,rows,cols,grid,visited);
+        }
+      }
+    }
+    
+    return num; 
+          
+  }
+    
+     private static void dfs(int i,int j,int rows,int cols,char[][] grid,char[][] visited)
+    {
+      
+      if(i<0 || i>=rows || j<0 || j>=cols)
+      {
+        return;
+      }
+      
+      if(grid[i][j] !=1 || (grid[i][j] == 1 && visited[i][j] == 'V'))
+      {
+        return;
+      }
+      
+      if(grid[i][j] == 1 && visited[i][j] != 'V')
+      {
+        visited[i][j] = 'V';
+        int[][] indices = new int[][] {{i+1,j},{i,j+1},{i-1,j},{i,j-1}};
+        for(int[] a : indices)
+        {
+          dfs(a[0],a[1],rows,cols,grid,visited);
+        }
+          
+      }
+  }
+      
+}
+
+
+
+Approcah : DFS
+
+Complexity Analysis
+
+Time complexity : O(M \times N)O(M×N) where MM is the number of rows and NN is the number of columns.
+
+Space complexity : worst case O(M \times N)O(M×N) in case that the grid map is filled with lands where DFS goes by M \times NM×N deep.

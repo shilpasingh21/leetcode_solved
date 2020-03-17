@@ -1,0 +1,91 @@
+package hashtables;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+class Coordinate{
+	int x;
+	int y;
+	
+    Coordinate(int x, int y){
+    	this.x = x;
+    	this.y = y;
+		
+	}
+}
+
+public class TreasureIsland {
+	
+	public static void main(String[] args) {
+		char[][] island = new char[][]{
+				{'O', 'O', 'O', 'O'},
+				{'D', 'O', 'D', 'O'},
+				{'O', 'O', 'O', 'O'},
+				{'X', 'D', 'D', 'O'}
+		};
+		int result = treasureIsland(island);
+		System.out.println(String.format("%s (expect 5)", result));
+	}
+	
+	public static int treasureIsland(char[][] grid) {
+		
+		int rows = grid.length;
+		int cols = grid[0].length;
+		
+		char[][] visited = new char[grid.length][grid[0].length];
+		Queue<Coordinate> queue = new LinkedList<>();
+		
+		visited[0][0] = 'V';
+		Coordinate initial = new Coordinate(0,0);
+		queue.add(initial);
+		
+		int[][] dirs = new int[][]{{1,0},{-1,0},{0,1},{0,-1}};
+		
+		// Doing BFS
+		
+		int steps =0;
+		
+		while(!queue.isEmpty()) 
+		{
+			int size = queue.size();
+			for(int i=0;i<size;i++) 
+			{
+				Coordinate current = queue.poll();
+				int x = current.x;
+				int y = current.y;
+				if(grid[x][y] == 'X') {
+					return steps;
+				}
+				
+				for(int[] dir : dirs) 
+				{
+					int newx = x + dir[0];
+					int newy = y + dir[1];
+					
+					if(newx >=0 && newx <rows && newy >=0 && newy<cols && grid[newx][newy] !='D' 
+							&& visited[newx][newy] !='V') 
+					{
+						visited[newx][newy]= 'V';
+						queue.add(new Coordinate(newx,newy));
+					}
+				}
+			}
+			
+			steps++;
+		}
+		
+		return 0;
+		
+	}
+	
+}
+
+
+Approach:  We are doing a BFS.
+
+Complexity analysis: Time complexity : O(mn)O(mn).The breadth-first search takes at most m \times nm×n steps to reach all cells, therefore the time complexity is O(mn)O(mn).
+Once we set a cells distance, we are basically marking it as visited, which means each cell is visited at most once. Therefore, the time complexity does not depend on the number of cells and is O(mn)O(mn).
+
+Space complexity : O(mn)O(mn). The space complexity depends on the queue's size. We insert at most m \times nm×n points into the queue.
+
+Space complexity : O(mn)O(mn). The space complexity depends on the queue's size. We insert at most m \times nm×n points into the queue.

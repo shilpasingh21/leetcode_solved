@@ -1,0 +1,108 @@
+package hashtables;
+
+import java.util.;
+
+public class FavouriteGenres {
+	
+	public static void main(String[] args) {
+		
+		MapString, ArrayListString userSongs = new HashMapString, ArrayListString();
+		
+		ArrayListString songs1 = new ArrayListString();
+		songs1.add(song1);
+		songs1.add(song2);
+		songs1.add(song3);
+		songs1.add(song4);
+		songs1.add(song8);
+		
+		userSongs.put(David, songs1);
+		
+		ArrayListString songs2 = new ArrayListString();
+		songs2.add(song5);
+		songs2.add(song6);
+		songs2.add(song7);
+		
+		userSongs.put(Emma, songs2);
+		
+        MapString, ArrayListString songGenres = new HashMapString, ArrayListString();
+		
+		ArrayListString songs3 = new ArrayListString();
+		songs3.add(song1);
+		songs3.add(song3);
+		
+		ArrayListString songs4 = new ArrayListString();
+		songs4.add(song7);
+		
+		ArrayListString songs5 = new ArrayListString();
+		songs5.add(song2);
+		songs5.add(song4);
+		
+		ArrayListString songs6 = new ArrayListString();
+		songs6.add(song5);
+		songs6.add(song6);
+		
+		ArrayListString songs7 = new ArrayListString();
+		songs7.add(song8);
+		songs7.add(song9);
+
+		songGenres.put(Rock, songs3);
+		songGenres.put(Dubstep, songs4);
+		songGenres.put(Techno, songs5);
+		songGenres.put(Pop, songs6);
+		songGenres.put(Jazz, songs7);
+		
+		MapString, ArrayListString favmap = favGenre(userSongs,songGenres);
+		
+		System.out.println(favmap);
+		
+	}
+
+	public static MapString, ArrayListString favGenre(MapString, ArrayListString userSongs,
+			MapString, ArrayListString songGenres) {
+		MapString, String songtoGenremap = new HashMapString, String();
+
+		for (Map.EntryString, ArrayListString entry  songGenres.entrySet()) {
+			String genre = entry.getKey();
+			ListString songs = entry.getValue();
+			for (int i = 0; i  songs.size(); i++) {
+				songtoGenremap.put(songs.get(i), genre);
+			}
+		}
+
+		
+
+		MapString, ArrayListString output = new HashMapString, ArrayListString();
+
+		for (Map.EntryString, ArrayListString entry  userSongs.entrySet()) {
+			MapString, Integer countmap = new HashMapString, Integer();
+			String user = entry.getKey();
+			int maxcount = 0;
+			ListString songs = entry.getValue();
+			for (int i = 0; i  songs.size(); i++) {
+				if (songtoGenremap.containsKey(songs.get(i))) {
+					String genre = songtoGenremap.get(songs.get(i));
+					countmap.put(genre, countmap.getOrDefault(genre, 0) + 1);
+					int count = countmap.get(genre);
+					if (count  maxcount) {
+						maxcount = count;
+					}
+				}
+			}
+
+			ArrayListString genrelist = new ArrayListString();
+
+			for (Map.EntryString, Integer entrycount  countmap.entrySet()) {
+				Integer count = entrycount.getValue();
+				if (count == maxcount) {
+					String genre = entrycount.getKey();
+					genrelist.add(genre);
+				}
+			}
+
+			output.put(user, genrelist);
+		}
+
+		return output;
+
+	}
+}

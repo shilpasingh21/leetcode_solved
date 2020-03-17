@@ -1,0 +1,131 @@
+package hashtables;
+
+import java.util.*;
+
+public class CriticalConnections {
+
+	static int time = 0;
+	static List<List<Integer>> result;
+	static Map<Integer, Boolean> visited;
+
+	public static void main(String args[]) {
+		
+		
+     List<List<Integer>> input1 = new ArrayList<>();
+     
+     List<Integer> pair1 = new ArrayList<>();
+     pair1.add(1);
+     pair1.add(2);
+     
+     List<Integer> pair2 = new ArrayList<>();
+     pair2.add(1);
+     pair2.add(3);
+     
+     List<Integer> pair3 = new ArrayList<>();
+     pair3.add(2);
+     pair3.add(3);
+     
+     List<Integer> pair4 = new ArrayList<>();
+     pair4.add(3);
+     pair4.add(4);
+     
+     List<Integer> pair5 = new ArrayList<>();
+     pair5.add(3);
+     pair5.add(6);
+     
+     List<Integer> pair6 = new ArrayList<>();
+     pair6.add(4);
+     pair6.add(5);
+     
+     List<Integer> pair7 = new ArrayList<>();
+     pair7.add(6);
+     pair7.add(7);
+     
+     List<Integer> pair8 = new ArrayList<>();
+     pair8.add(6);
+     pair8.add(9);
+     
+     List<Integer> pair9 = new ArrayList<>();
+     pair9.add(7);
+     pair9.add(8);
+     
+     List<Integer> pair10 = new ArrayList<>();
+     pair10.add(8);
+     pair10.add(9);
+     
+     
+     input1.add(pair1);
+     input1.add(pair2);
+     input1.add(pair3);
+     input1.add(pair4);
+     input1.add(pair5);
+     input1.add(pair6);
+     input1.add(pair7);
+     input1.add(pair8);
+     input1.add(pair9);
+     input1.add(pair10);
+     
+     int numServers = 9;
+     int numOfConnections = input1.size();
+     System.out.println(getCriticalConnections(input1, numOfConnections,numServers));
+     
+     }
+
+	private static List<List<Integer>> getCriticalConnections(List<List<Integer>> connections, int numOfConnections,
+			int numServers) {
+
+		Map<Integer, HashSet<Integer>> map = new HashMap<>();
+		for (int i = 1; i <= numServers; i++) {
+			map.put(i, new HashSet<>());
+		}
+
+		for (List<Integer> connection : connections) {
+			map.get(connection.get(0)).add(connection.get(1));
+			map.get(connection.get(1)).add(connection.get(0));
+		}
+
+		result = new ArrayList<>();
+
+		for (int i = 0; i < numOfConnections; i++) {
+			visited = new HashMap<>();
+			List<Integer> connection = connections.get(i);
+			int x = connection.get(0);
+			int y = connection.get(1);
+			map.get(x).remove(y);
+			map.get(y).remove(x);
+			dfs(map, 1);
+			if (visited.size() != numServers) {
+				List<Integer> pair = new ArrayList<>();
+				if (connection.get(0) > connection.get(1)) {
+					pair.add(connection.get(1));
+					pair.add(connection.get(0));
+					result.add(pair);
+				} else {
+					pair.add(connection.get(0));
+					pair.add(connection.get(1));
+					result.add(pair);
+				}
+			}
+			map.get(x).add(y);
+			map.get(y).add(x);
+		}
+
+		return result;
+
+	}
+
+	public static void dfs(Map<Integer, HashSet<Integer>> map, int u) {
+		visited.put(u, true);
+		if (map.get(u).size() != 0) {
+			for (int v : map.get(u)) {
+				if (visited.getOrDefault(v, false) == false) {
+					dfs(map, v);
+				}
+			}
+		}
+	}
+
+}
+
+Approach; It is a Brute force approcah where we remove all edges one by one and see if the removal of an edge causes a disconnecged graph.For eveey edge given in the list,we remove it
+and see if the graph remains connected using DFS and then add it back to the graph.if we do not visit each vertex then that edge is a bridge, because removing that edge means the graph is no longer connected.

@@ -1,0 +1,101 @@
+import java.io.*;
+import java.util.*;
+
+/*
+ * To execute Java, please define "static void main" on a class
+ * named Solution.
+ *
+ * If you need more classes, simply define them inline.
+ */
+
+
+
+  class Node {
+    int val;
+    Node next;
+    Node random;
+
+    public Node(int val) {
+        this.val = val;
+        this.next = null;
+        this.random = null;
+    }
+}
+
+
+class Solution {
+  
+  public static void main(String[] args) {
+   
+  }
+  
+  public Node copyRandomList(Node head){
+    
+    Map<Node,Node> map = new HashMap<Node,Node>();
+    Node current = head;
+    Node dummy = new Node(0);
+    Node newcurrent = dummy;
+    
+    while(current !=null)
+    {
+        Node newnode;
+        Node newrandom;
+      
+        if(map.containsKey(current)){
+          newnode = map.get(current);
+        }
+        else{
+          newnode = new Node(current.val);
+          map.put(current,newnode);
+        }
+      
+        newcurrent.next = newnode;
+      
+        if(current.random == null){
+          newrandom = null;
+        }
+        else if(map.containsKey(current.random)){
+          newrandom = map.get(current.random);
+        }
+        else{
+          newrandom = new Node(current.random.val);
+          map.put(current.random,newrandom);
+        }
+      
+        newcurrent = newcurrent.next;
+        newcurrent.random = newrandom;
+        current = current.next;
+        
+    }
+    
+    return dummy.next;
+  }
+
+Complexity Analysis
+
+Time Complexity : O(N)O(N) because we make one pass over the original linked list.
+Space Complexity : O(N)O(N) as we have a dictionary containing mapping from old list nodes to new list nodes. Since there are NN nodes, we have O(N)O(N) space complexity.
+        
+        
+        
+    
+    
+            
+          
+          
+        
+      
+        
+            
+          
+      
+      
+      
+    
+    
+  
+  
+  
+  
+  
+}
